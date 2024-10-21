@@ -247,7 +247,7 @@ class ApiClient:
             tenant_objs = self.get_tenants_from_sophos()
 
             if "items" in tenant_objs:
-                self.log("Found %s tenants." % len(tenant_objs["items"]))
+                logging.info("Found %s tenants." % len(tenant_objs["items"]))
                 for tenant_obj in tenant_objs["items"]:
                     result = self.make_credentials_request(
                         endpoint_name, tenant_obj, tenant_objs["access_token"]
@@ -369,7 +369,7 @@ class ApiClient:
         Returns:
             dict -- yield event/alert object
         """
-        self.log("Processing Tenant: %s" % (tenant_obj))
+        logging.info("Processing Tenant: %s" % (tenant_obj))
 
         state_data_key = endpoint_name + "LastFetched"
         tenant_id = tenant_obj["id"]

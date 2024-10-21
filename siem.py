@@ -383,17 +383,17 @@ def get_alerts_or_events(endpoint, options, config, state):
         config {dict}: config file details
         state {dict}: state file details
     """
-    api_client_obj = api_client.ApiClient(endpoint, options, config, state)
-    results = api_client_obj.get_alerts_or_events()
-    
     if config.format == "json":
-        write_json_format(results, config)
+        write = write_json_format
     elif config.format == "keyvalue":
-        write_keyvalue_format(results, config)
+        write = write_keyvalue_format
     elif config.format == "cef":
-        write_cef_format(results, config)
+        write = write_cef_format
     else:
-        write_json_format(results, config)
+        write = write_json_format
+
+    api_client_obj = api_client.ApiClient(endpoint, options, config, state)
+    api_client_obj.get_alerts_or_events(write)
 
 def run(options, config_data, state):
     """ Call the fetch alerts/events method
