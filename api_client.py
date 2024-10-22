@@ -252,7 +252,7 @@ class ApiClient:
                     result = self.make_credentials_request(
                         endpoint_name, tenant_obj, tenant_objs["access_token"]
                     )
-                    write_fnc(result)
+                    write_fnc(result, self.config)
             else:
                 logging.critical("Error :: %s" % tenant_objs["error"])
                 raise Exception(tenant_objs["error"])
@@ -261,7 +261,7 @@ class ApiClient:
             result = self.make_token_request(
                 endpoint_name, token_data
             )
-            write_fnc(result)
+            write_fnc(result, self.config)
 
     def call_endpoint(self, api_host, default_headers, args):
         """Execute the API request
@@ -397,12 +397,14 @@ class ApiClient:
             if "items" in events and len(events["items"]) > 0:
                 logging.info(f"Retrieved {len(events['items'])} new events")
                 for e in events["items"]:
+                    print(e)
+                    print(tenant_obj)
                     e["datastream"] = (
                         EVENT_TYPE if (self.endpoint == EVENTS_V1) else ALERT_TYPE
                     )
-                    e["customer_name"] = tenant_obj["name"]
-                    e["data_geography"] = tenant_obj["dataGeography"]
-                    e["data_region"] = tenant_obj["dataRegion"]
+                    #e["customer_name"] = tenant_obj["name"]
+                    #e["data_geography"] = tenant_obj["dataGeography"]
+                    #e["data_region"] = tenant_obj["dataRegion"]
                     yield e
             else:
                 logging.info(

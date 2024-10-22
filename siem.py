@@ -90,7 +90,7 @@ def get_log_line_separator():
         _log_Separator = "\n" if len(tcp_handlers) > 0 else ""
     return _log_Separator
 
-def write_json_format(results):
+def write_json_format(results, config):
     """Write JSON format data.
     Arguments:
         results {list}: data
